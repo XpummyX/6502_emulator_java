@@ -14,9 +14,10 @@ public class CPUState {
     boolean Carry;
 
     int clock;
+    AddressBus addressBus;
     public CPUState(AddressBus addressBus)
     {
-
+        this.addressBus=addressBus;
         PC = (addressBus.readByte(0xfffd)<<8) | addressBus.readByte(0xfffc);
         AC = 0;
         X = 0;
@@ -36,6 +37,9 @@ public class CPUState {
         Overflow = testState.Overflow;
         Break = testState.Break;
         Decimal = testState.Decimal;
+        Interrupt = testState.Interrupt;
+        Zero = testState.Zero;
+        Carry = testState.Carry;
     }
     public boolean doesStateMatchTestState(TestState testState)
     {
@@ -52,6 +56,9 @@ public class CPUState {
         if(testState.Interrupt!=Interrupt)equal=false;
         if(testState.Zero!=Zero)equal=false;
         if(testState.Carry!=Carry)equal=false;
+
+        if(testState.resultsInMemory && addressBus.readByte(testState.address)!=testState.value)equal=false;
+
         return equal;
     }
     public void setNegative(boolean arg)

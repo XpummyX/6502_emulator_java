@@ -1,0 +1,732 @@
+[
+
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":1
+         },
+         {
+            "address":17,
+            "value":10
+         },
+         {
+            "address":13,
+            "value":3
+         },
+         {
+            "address":14,
+            "value":0
+         },
+         {
+            "address":3,
+            "value":16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":23,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA (indirect,X)..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":5
+         },
+         {
+            "address":17,
+            "value":10
+         },
+         {
+            "address":10,
+            "value":16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":23,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA (zeropage)..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":6
+         },
+         {
+            "address":17,
+            "value":10
+         },
+         {
+            "address":10,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":true,
+         "address": 10,
+         "value": 30
+      },
+      "text":"- Testing ASL zeropage..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":8
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":256,
+         "Negative":false,
+         "Overflow":true,
+         "Break":false,
+         "Decimal":true,
+         "Interrupt":false,
+         "Zero":true,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":17,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":257,
+         "Negative":false,
+         "Overflow":true,
+         "Break":false,
+         "Decimal":true,
+         "Interrupt":false,
+         "Zero":true,
+         "Carry":false,
+         "resultsInMemory":true,
+         "address": 256,
+         "value": 94
+      },
+      "text":"- Testing PHP Status Register..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":9
+         },
+         {
+            "address":17,
+            "value":16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":23,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA Immediate..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":10
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":17,
+         "AC":14,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ASL Accumulator..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":13
+         },
+         {
+            "address":17,
+            "value":0
+         },
+         {
+            "address":18,
+            "value":20
+         },
+         {
+            "address":20,
+            "value":16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":23,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA Absolute..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":14
+         },
+         {
+            "address":17,
+            "value":0
+         },
+         {
+            "address":18,
+            "value":20
+         },
+         {
+            "address":20,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":true,
+         "address": 20,
+         "value": 30
+      },
+      "text":"- Testing ASL Absolute..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":14
+         },
+         {
+            "address":17,
+            "value":0
+         },
+         {
+            "address":18,
+            "value":20
+         },
+         {
+            "address":20,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":true,
+         "address": 20,
+         "value": 30
+      },
+      "text":"- Testing ASL Absolute..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":16
+         },
+         {
+            "address":17,
+            "value":10
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":26,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing BPL Relative..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":17
+         },
+         {
+            "address":17,
+            "value":10
+         },
+         {
+            "address":10,
+            "value":0
+         },
+         {
+            "address":11,
+            "value":40
+         },
+         {
+            "address":40,
+            "value":4
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":16,
+         "X":0,
+         "Y":3,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":23,
+         "X":0,
+         "Y":3,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA Indirect,Y-indexed..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":21
+         },
+         {
+            "address":17,
+            "value":7
+         },
+         {
+            "address":10,
+            "value":7
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":16,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":23,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA Zeropage,X-indexed..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":21
+         },
+         {
+            "address":17,
+            "value":7
+         },
+         {
+            "address":10,
+            "value":7
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":16,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":23,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ASL Zeropage,X-indexed..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":41
+         },
+         {
+            "address":17,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":7,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing AND immediate..."
+   }
+
+]

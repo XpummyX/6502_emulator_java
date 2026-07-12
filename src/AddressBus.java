@@ -53,4 +53,11 @@ public class AddressBus {
             System.out.println("null address");
         }
     }
+    public void applyWrites(TestWrite[] writes)
+    {
+        for(int i=0;i<writes.length;i++)
+        {
+            writeByte(writes[i].address,writes[i].value);
+        }
+    }
 }
