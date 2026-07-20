@@ -685,6 +685,478 @@
       "writes":[
          {
             "address":16,
+            "value":24
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":true,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":17,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing Clear Carry (implied)..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":25
+         },
+         {
+            "address":17,
+            "value":24
+         },
+         {
+            "address":18,
+            "value":0
+         },
+         {
+            "address": 27,
+            "value": 16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":0,
+         "Y":3,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":23,
+         "X":0,
+         "Y":3,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA, absolute, Y-indexed..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":29
+         },
+         {
+            "address":17,
+            "value":24
+         },
+         {
+            "address":18,
+            "value":0
+         },
+         {
+            "address": 27,
+            "value": 16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":7,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":23,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ORA, absolute, X-indexed..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":30
+         },
+         {
+            "address":17,
+            "value":24
+         },
+         {
+            "address":18,
+            "value":0
+         },
+         {
+            "address":27,
+            "value":7
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":0,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": true,
+         "address": 27,
+         "value": 14
+      },
+      "text":"- Testing ASL, absolute, X-indexed..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":32
+         },
+         {
+            "address":17,
+            "value":0
+         },
+         {
+            "address":18,
+            "value":27
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":256,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":27,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":258,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": true,
+         "address": 257,
+         "value": 18
+      },
+      "text":"- Testing JSR, absolute..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":33
+         },
+         {
+            "address":17,
+            "value":15
+         },
+         {
+            "address":18,
+            "value":27
+         },
+         {
+            "address":27,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":42,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":10,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing AND, X indexed, indirect..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":37
+         },
+         {
+            "address":17,
+            "value":27
+         },
+         {
+            "address":27,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":42,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":10,
+         "X":3,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing AND, Zeropage..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":38
+         },
+         {
+            "address":17,
+            "value":27
+         },
+         {
+            "address":27,
+            "value":-16
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory": true,
+         "address": 27,
+         "value": -31
+      },
+      "text":"- Testing ROL Zeropage..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":40
+         },
+         {
+            "address":256,
+            "value":117
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":257,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":18,
+         "AC":0,
+         "X":0,
+         "Y":0,
+         "SP":256,
+         "Negative":false,
+         "Overflow":true,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":true,
+         "Zero":false,
+         "Carry":true,
+         "resultsInMemory": false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing PHP Implied..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
             "value":41
          },
          {
@@ -727,6 +1199,105 @@
          "value": 0
       },
       "text":"- Testing AND immediate..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":42
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":240,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":17,
+         "AC":225,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing ROL Accumulator..."
+   },
+   {
+      "vector":16,
+      "writes":[
+         {
+            "address":16,
+            "value":45
+         },
+         {
+            "address":17,
+            "value":0
+         },
+         {
+            "address":18,
+            "value":27
+         },
+         {
+            "address":27,
+            "value":15
+         }
+      ],
+      "primary":{
+         "PC":16,
+         "AC":127,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "expected":{
+         "PC":19,
+         "AC":15,
+         "X":0,
+         "Y":0,
+         "SP":0,
+         "Negative":false,
+         "Overflow":false,
+         "Break":false,
+         "Decimal":false,
+         "Interrupt":false,
+         "Zero":false,
+         "Carry":false,
+         "resultsInMemory":false,
+         "address": 0,
+         "value": 0
+      },
+      "text":"- Testing AND Absolute..."
    }
-
 ]
