@@ -11,8 +11,10 @@ public class CPUCore {
 
     public static final int BITOP_AND = 1;
     public static final int BITOP_OR = 2;
+    public static final int BITOP_XOR = 3;
 
     public static final int PULL_STATUS = 1;
+    public static final int PULL_ACCUMULATOR = 2;
 
     public static final int BRANCH_ON_CARRY_CLEAR = 1;
     public static final int BRANCH_ON_CARRY_SET = 2;
@@ -29,6 +31,9 @@ public class CPUCore {
     public static final int FLAG_OVERFLOW = 4;
 
     public static final int PUSH_STATUS = 1;
+    public static final int PUSH_ACCUMULATOR = 2;
+
+    public static final int RETURN_FROM_INTERRUPT = 1;
 
     public static final int CPU_SPEED = 1000*1000;//1 mhz
     CPUState cpuState;
@@ -113,6 +118,21 @@ public class CPUCore {
             case InstructionUnit.OPCODE_PULL_PROCESSOR_STATUS:
                 Pull(PULL_STATUS);
                 break;
+            case InstructionUnit.OPCODE_SET_CARRY:
+                SetFlag(FLAG_CARRY);
+                break;
+            case InstructionUnit.OPCODE_RETURN_FROM_INTERRUPT:
+                Return(RETURN_FROM_INTERRUPT);
+                break;
+            case InstructionUnit.OPCODE_EOR_WITH_ACCUMULATOR:
+                BitOps(BITOP_XOR,ius[instructionIndex].address_mode);
+                break;
+            case InstructionUnit.OPCODE_LOGICAL_SHIFT_RIGHT:
+                Shift(SHIFT_RIGHT,LOGICAL_SHIFT,ius[instructionIndex].address_mode);
+                break;
+            case InstructionUnit.OPCODE_PUSH_ACCUMULATOR:
+                Push(PULL_ACCUMULATOR);
+                break;
         }
         cpuState.clock+=ius[instructionIndex].cycles;
     }
@@ -137,7 +157,7 @@ public class CPUCore {
                 }
             } else if (direction == SHIFT_RIGHT) {
                 if(address_mode==InstructionUnit.ADDRESS_ACCUMULATOR){
-                    cpuState.AC = (byte) ((cpuState.AC << 1) & 0xff);
+                    cpuState.AC = (byte) ((cpuState.AC >> 1) & 0xff);
                 }else {
                     int addr = readAddressFromMemoryBasedOnAdressingMode(address_mode);
                     byte mem = readByteFromMemoryBasedOnAdressingMode(address_mode);
@@ -172,6 +192,14 @@ public class CPUCore {
                     addressBus.writeByte(addr, mem);
                 }
             }
+        }else if(typeOfShift==LOGICAL_SHIFT)
+        {
+            if (direction == SHIFT_RIGHT) {
+                int addr = readAddressFromMemoryBasedOnAdressingMode(address_mode);
+                byte mem = readByteFromMemoryBasedOnAdressingMode(address_mode);
+                mem = (byte) ((mem >>> 1) & 0xff);
+                addressBus.writeByte(addr,mem);
+            }
         }
     }
     public void Branch(int branch_type)
@@ -197,6 +225,12 @@ public class CPUCore {
         }else if(branch_type==BRANCH_ON_RESULT_PLUS)
         {
             if(!cpuState.isNegative())
+            {
+                cpuState.PC+=addressBus.readByte(cpuState.PC+1);
+            }
+        }else if(branch_type==BRANCH_ON_RESULT_MINUS)
+        {
+            if(cpuState.isNegative())
             {
                 cpuState.PC+=addressBus.readByte(cpuState.PC+1);
             }
@@ -252,7 +286,67 @@ public class CPUCore {
             //System.out.println("address mode: "+address_mode+" "+bb);
             //System.out.println(Integer.toHexString((int)(bb & 0xff)));
             cpuState.AC = (cpuState.AC | bb);
+        }else if(operation==BITOP_XOR)
+        {
+            byte bb = readByteFromMemoryBasedOnAdressingMode(address_mode);
+
+            cpuState.AC = (XOR_bytes((byte)(cpuState.AC & 0xff),bb)&0xff);
         }
+    }
+
+    public byte XOR_bytes(byte a,byte b)
+    {
+        String bin1 = Integer.toBinaryString((a&0xff));
+        String bin2 = Integer.toBinaryString((b&0xff));
+
+        String bin3 = "";
+
+        int ret = 0;
+
+
+
+        if(bin1.length()<8)
+        {
+            while(bin1.length()!=8)
+            {
+                bin1=bin1+"0";
+            }
+        }
+        if(bin2.length()<8)
+        {
+            while(bin2.length()!=8)
+            {
+                bin2=bin2+"0";
+            }
+        }
+
+        //System.out.println("bin1: "+bin1+" bin2: "+bin2);
+
+        for(int i=0;i<bin1.length();i++)
+        {
+            if(bin1.charAt(i)==bin2.charAt(i))
+            {
+                bin3=bin3+"0";
+            }else{
+                bin3=bin3+"1";
+            }
+        }
+
+       // System.out.println("bin3: "+bin3);
+
+        for(int i=0;i<bin3.length();i++)
+        {
+            //System.out.print("bin3 bit: "+bin3.charAt(i));
+            if(bin3.charAt(i)=='1')
+            {
+                //System.out.println(" one");
+                ret+=Math.pow(2,(i));
+            }else{
+               // System.out.println();
+            }
+        }
+        //System.out.println("ret: "+ret);
+        return (byte)(ret & 0xff);
     }
 
     public void Push(int type)
@@ -286,6 +380,11 @@ public class CPUCore {
             //System.out.println("mm: "+mm);
             //System.out.println(Integer.toBinaryString(mm));
             addressBus.writeByte(cpuState.SP,(byte)(mm&0xff));
+            cpuState.SP+=1;
+            cpuState.PC++;
+        }else if(type==PUSH_ACCUMULATOR)
+        {
+            addressBus.writeByte(cpuState.SP,(byte)(cpuState.AC&0xff));
             cpuState.SP+=1;
             cpuState.PC++;
         }
@@ -336,13 +435,50 @@ public class CPUCore {
             cpuState.PC+=2;
         }
     }
-    public void Rotate()
+//    public void Rotate()
+//    {
+//
+//    }
+    public void Return(int return_type)
     {
+        if(return_type == RETURN_FROM_INTERRUPT)
+        {
+            byte status = PullByte();
+            byte lo = PullByte();
+            byte hi = PullByte();
 
-    }
-    public void Return()
-    {
+            int btt = (int)(status&0xff);
+            int[] bits = new int[8];
+            int bitMask = 1;
+            for(int i=0;i<bits.length;i++)
+            {
+                bits[i] = btt&bitMask;
+                bitMask=bitMask<<1;
+            }
+            for(int i=0;i<bits.length;i++)
+            {
+                bits[i] = bits[i]>>i;
+                //System.out.println(bits[i]);
+            }
+            //Break flag and bit5 is ignored
+            if(bits[0]==1)cpuState.Carry=true;
+            if(bits[1]==1)cpuState.Zero=true;
+            if(bits[2]==1)cpuState.Interrupt=true;
+            if(bits[3]==1)cpuState.Decimal=true;
+            if(bits[6]==1)cpuState.Overflow=true;
+            if(bits[7]==1)cpuState.Negative=true;
 
+            if(bits[0]==0)cpuState.Carry=false;
+            if(bits[1]==0)cpuState.Zero=false;
+            if(bits[2]==0)cpuState.Interrupt=false;
+            if(bits[3]==0)cpuState.Decimal=false;
+            if(bits[6]==0)cpuState.Overflow=false;
+            if(bits[7]==0)cpuState.Negative=false;
+
+
+            int addr = ((hi&0xff)<<8)+(lo&0xff);
+            cpuState.PC=addr;
+        }
     }
     public void Jump(boolean isSubroutine)
     {
@@ -369,9 +505,13 @@ public class CPUCore {
             cpuState.PC=addr;
         }
     }
-    public void SetFlag()
+    public void SetFlag(int flag)
     {
-
+        if(flag==FLAG_CARRY)
+        {
+            cpuState.setCarry(true);
+            cpuState.PC+=1;
+        }
     }
     public void Store()
     {
@@ -409,16 +549,16 @@ public class CPUCore {
             //cpuState.PC+=3;
         }else if(address_mode==InstructionUnit.ADDRESS_ABSOLUTE_X_INDEXED)
         {
-            byte lo = addressBus.readByte(cpuState.PC+1);
-            byte hi = addressBus.readByte(cpuState.PC+2);
+            byte lo = addressBus.readByte(cpuState.PC+2);
+            byte hi = addressBus.readByte(cpuState.PC+1);
             int addr = ((hi & 0xff)<<8)+(lo & 0xff);
             addr+=cpuState.X;
             ret = addr;
             //cpuState.PC+=3;
         }else if(address_mode==InstructionUnit.ADDRESS_ABSOLUTE_Y_INDEXED)
         {
-            byte lo = addressBus.readByte(cpuState.PC+1);
-            byte hi = addressBus.readByte(cpuState.PC+2);
+            byte lo = addressBus.readByte(cpuState.PC+2);
+            byte hi = addressBus.readByte(cpuState.PC+1);
             int addr = ((hi & 0xff)<<8)+(lo & 0xff)+cpuState.Y;
             ret = addr;
             //cpuState.PC+=3;
@@ -467,16 +607,16 @@ public class CPUCore {
             cpuState.PC+=3;
         }else if(address_mode==InstructionUnit.ADDRESS_ABSOLUTE_X_INDEXED)
         {
-            byte lo = addressBus.readByte(cpuState.PC+1);
-            byte hi = addressBus.readByte(cpuState.PC+2);
+            byte lo = addressBus.readByte(cpuState.PC+2);
+            byte hi = addressBus.readByte(cpuState.PC+1);
             int addr = ((hi & 0xff)<<8)+(lo & 0xff);
             addr+=cpuState.X;
             ret = addressBus.readByte(addr);
             cpuState.PC+=3;
         }else if(address_mode==InstructionUnit.ADDRESS_ABSOLUTE_Y_INDEXED)
         {
-            byte lo = addressBus.readByte(cpuState.PC+1);
-            byte hi = addressBus.readByte(cpuState.PC+2);
+            byte lo = addressBus.readByte(cpuState.PC+2);
+            byte hi = addressBus.readByte(cpuState.PC+1);
             int addr = ((hi & 0xff)<<8)+(lo & 0xff);
             addr+=cpuState.Y;
             ret = addressBus.readByte(addr);
@@ -484,8 +624,8 @@ public class CPUCore {
         }else if(address_mode==InstructionUnit.ADDRESS_X_INDEXED_INDIRECT)
         {
             int arg = addressBus.readByte(cpuState.PC+1) & 0xff;
-            byte lo = addressBus.readByte(arg+cpuState.X);
-            byte hi = addressBus.readByte(arg+cpuState.X+1);
+            byte lo = addressBus.readByte(arg+cpuState.X+1);
+            byte hi = addressBus.readByte(arg+cpuState.X);
             int addr = ((hi&0xff)<<8)+(lo&0xff);
             ret = addressBus.readByte(addr);
             cpuState.PC+=2;
@@ -497,8 +637,9 @@ public class CPUCore {
             byte hi = addressBus.readByte(arg);
             int addr = (hi<<8)+lo;
             //System.out.println("addr indirect: "+addr);
+            addr+=cpuState.Y;
             ret = addressBus.readByte(addr);
-            ret+=cpuState.Y;
+
             //System.out.println("indirect ret: "+ret);
             cpuState.PC+=2;
         }

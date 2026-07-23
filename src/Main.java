@@ -3,7 +3,7 @@ public class Main {
         CPUCore cpuCore = new CPUCore();
         //cpuCore.runCore();
 
-        //System.out.println((byte)(225));
+        System.out.println((byte)(225));
         TestManager testManager = new TestManager(cpuCore);
     }
 }

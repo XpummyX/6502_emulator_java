@@ -33,6 +33,8 @@ public class AddressBus {
     {
         int translated = address&0xffff;
 
+        //System.out.println("address: "+address);
+
         if(translated<2048){
             return ram[translated];
         }else if(translated>(0xffff-7)){
